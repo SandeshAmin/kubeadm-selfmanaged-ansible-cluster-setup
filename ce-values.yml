@@ -2,7 +2,7 @@ ipv4:
   enabled: true
 kubeProxyReplacement: "strict"
 
-k8sServiceHost: 167.71.236.224
+k8sServiceHost: $CONTROLIP
 k8sServicePort: 6443
 
 hubble:
