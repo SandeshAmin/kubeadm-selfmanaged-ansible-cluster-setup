@@ -1,0 +1,6 @@
+[control_plane]
+167.71.236.224 control1
+
+[worker_nodes]
+64.227.150.190 worker1
+167.71.230.69 worker2

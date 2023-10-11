@@ -1,0 +1,40 @@
+---
+- hosts: control_plane
+  become: yes
+  tasks:
+    - name: Install Helm
+      shell: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod +x get_helm.sh
+        ./get_helm.sh
+      args:
+        chdir: /tmp  # You can change the directory as needed
+      register: helm_install_result
+
+    - name: Verify Helm installation
+      command: helm version
+      register: helm_version_result
+      changed_when: false  # Do not consider this task as changed
+
+    - debug:
+        var: helm_version_result.stdout_lines
+      
+    - name: Add Cilium Helm repository
+      become_user: ubuntu
+      shell: helm repo add isovalent https://helm.isovalent.com
+      args:
+        chdir: $HOME
+   
+    - name: Copy values.yaml to the remote host
+      become_user: ubuntu
+      copy:
+        src: "{{ inventory_dir }}/ce-values.yml"
+        dest: $HOME
+
+    - name: Install Cilium using Helm
+      become_user: ubuntu
+      shell: helm install cilium isovalent/cilium --version 1.13.7+2 --namespace kube-system -f ce-values.yml
+      args:
+        chdir: $HOME
+ 
+

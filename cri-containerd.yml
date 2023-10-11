@@ -1,0 +1,38 @@
+- hosts: all
+  become: yes
+  become_user: root
+  user: ubuntu
+  tasks:
+    - name: install containerd
+      apt:
+        name: containerd
+        state: present
+        force: yes
+
+    - name: update containerd
+      unarchive:
+        src: https://github.com/containerd/containerd/releases/download/v1.6.19/containerd-1.6.19-linux-amd64.tar.gz
+        dest: /usr/bin
+        extra_opts:
+          - --strip=1
+        remote_src: yes
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: set containerd defaults
+      shell: |
+        mkdir -p /etc/containerd
+        containerd config default > /etc/containerd/config.toml
+
+    - name: set cgroup driver to systemd
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: SystemdCgroup = false
+        replace: SystemdCgroup = true
+
+    - name: restart containerd
+      systemd:
+        name: containerd
+        state: restarted
+        masked: no

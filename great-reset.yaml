@@ -1,0 +1,8 @@
+---
+- name: Reset Kubernetes Cluster
+  hosts: all  # Define the group of nodes you want to reset
+  become: yes  # You might need elevated privileges
+
+  tasks:
+    - name: Run kubeadm reset
+      shell: kubeadm reset --force --ignore-preflight-errors all

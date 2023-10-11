@@ -1,0 +1,10 @@
+---
+- name: Reboot nodes
+  hosts: control_plane:workers
+  become: yes  # To run tasks with sudo privileges
+  gather_facts: yes  # To gather facts about the hosts
+
+  tasks:
+    - name: Reboot nodes
+      reboot:
+      when: inventory_hostname in groups['control_plane'] or inventory_hostname in groups['workers']

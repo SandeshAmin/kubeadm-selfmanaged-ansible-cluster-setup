@@ -1,0 +1,13 @@
+---
+- name: Test privileged escalation
+  hosts: all  # Replace 'all' with your specific group if needed
+  become: yes
+  become_user: ubuntu
+  tasks:
+    - name: Run whoami command
+      command: whoami
+      register: whoami_output
+
+    - name: Display whoami result
+      debug:
+        var: whoami_output.stdout

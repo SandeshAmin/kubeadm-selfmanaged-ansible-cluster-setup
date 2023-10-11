@@ -1,0 +1,15 @@
+ipv4:
+  enabled: true
+kubeProxyReplacement: "strict"
+
+k8sServiceHost: 167.71.236.224
+k8sServicePort: 6443
+
+hubble:
+  relay:
+    enabled: true
+
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList:
+    - "100.64.0.0/14"
