@@ -21,7 +21,7 @@
       
     - name: Add Cilium Helm repository
       become_user: ubuntu
-      shell: helm repo add isovalent https://helm.isovalent.com
+      shell: helm repo add cilium https://helm.cilium.com
       args:
         chdir: $HOME
    
@@ -33,7 +33,7 @@
 
     - name: Install Cilium using Helm
       become_user: ubuntu
-      shell: helm install cilium isovalent/cilium --version 1.13.7+2 --namespace kube-system -f ce-values.yml
+      shell: helm install cilium cilium/cilium --version 1.13.7+2 --namespace kube-system -f ce-values.yml
       args:
         chdir: $HOME
  
