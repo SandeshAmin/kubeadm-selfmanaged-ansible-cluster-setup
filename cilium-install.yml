@@ -33,7 +33,7 @@
 
     - name: Install Cilium using Helm
       become_user: ubuntu
-      shell: helm install cilium cilium/cilium --version 1.13.7+2 --namespace kube-system -f ce-values.yml
+      shell: helm install cilium cilium/cilium --version 1.14.5 --namespace kube-system -f ce-values.yml
       args:
         chdir: $HOME
  
